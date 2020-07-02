@@ -97,12 +97,7 @@ export class UserController {
     if (!id)
       throw new HttpException('No Target ID provided!', HttpStatus.BAD_REQUEST);
 
-    const success: boolean = await this.usersService.unlikeUser(req.user._id, id);
-
-    if (success)
-      return `Successfully unliked user with ID ${id}`;
-
-    throw new HttpException(`You haven't liked user with ID ${id}`, HttpStatus.BAD_REQUEST);
+    return this.usersService.unlikeUser(req.user._id, id);
   }
 
   @Get('most-liked')

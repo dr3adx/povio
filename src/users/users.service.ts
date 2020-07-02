@@ -88,7 +88,7 @@ export class UsersService {
         return {resp: `Successfully liked user with ID ${targetId}`};
     }
 
-    public async unlikeUser(myId: string, targetId: string): Promise<boolean> {
+    public async unlikeUser(myId: string, targetId: string): Promise<any> {
         const res: User = await this.getLikes(myId);
 
         let currentLikes: string = res.likes || "";
@@ -99,17 +99,18 @@ export class UsersService {
             const spl: string[] = currentLikes.split(",");
 
             if (!spl.includes(targetId))
-                return false;
+                throw new HttpException(`You haven't liked user with ID ${targetId}`, HttpStatus.BAD_REQUEST);
 
             spl.splice(spl.indexOf(targetId), 1);
             currentLikes = spl.join(",");
         }
         else
-            return false;
+            throw new HttpException(`You haven't liked anybody yet`, HttpStatus.BAD_REQUEST);
+
 
         await this.userModel.findByIdAndUpdate(myId, { $set: { likes: currentLikes }});
 
-        return true;
+        return {resp: `Successfully unliked user with ID ${targetId}`};
     }
 
     public async getMostLiked(): Promise<any> {
