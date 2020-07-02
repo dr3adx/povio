@@ -1,7 +1,7 @@
 # INSTRUCTIONS
 
 MongoDB credentials are already included in the source.
-No setup is required from the user's side besides running the app.
+No further Mongo setup is required from the user's side besides running the app.
 
 Run `npm i` to install packages.  
 Run `npm run start` to run app.  
