@@ -56,7 +56,7 @@ export class UsersService {
         return this.userModel.find();
     }
 
-    public async likeUser(myId: string, targetId: string): Promise<boolean> {
+    public async likeUser(myId: string, targetId: string): Promise<any> {
         if (!this.validateObjectId(targetId))
             throw new HttpException('User ID has to be an ObjectId', HttpStatus.BAD_REQUEST);
 
@@ -75,7 +75,8 @@ export class UsersService {
             const spl: string[] = currentLikes.split(",");
 
             if (spl.includes(targetId))
-                return false;
+                throw new HttpException(`You have already liked user with ID ${targetId} or the user doesn't exist`,
+                    HttpStatus.BAD_REQUEST);
 
             currentLikes += ',' + targetId;
         }
@@ -84,7 +85,7 @@ export class UsersService {
 
         await this.userModel.findByIdAndUpdate(myId, { $set: { likes: currentLikes }});
 
-        return true;
+        return {resp: `Successfully liked user with ID ${targetId}`};
     }
 
     public async unlikeUser(myId: string, targetId: string): Promise<boolean> {

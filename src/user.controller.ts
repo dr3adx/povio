@@ -85,13 +85,7 @@ export class UserController {
     if (!id)
       throw new HttpException('No Target ID provided!', HttpStatus.BAD_REQUEST);
 
-    const success: boolean = await this.usersService.likeUser(req.user._id, id);
-
-    if (success)
-      return `Successfully liked user with ID ${id}`;
-
-    throw new HttpException(`You have already liked user with ID ${id} or the user doesn't exist`,
-        HttpStatus.BAD_REQUEST);
+    return this.usersService.likeUser(req.user._id, id);
   }
 
   @UseGuards(JwtAuthGuard)
