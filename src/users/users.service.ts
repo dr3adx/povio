@@ -136,7 +136,10 @@ export class UsersService {
             });
         });
 
-        return [...map.entries()].sort((a, b) => b[1] - a[1]);
+        if (!map.size)
+            throw new HttpException('Most liked list is empty', HttpStatus.NOT_FOUND);
+
+        return {mostLiked: [...map.entries()].sort((a, b) => b[1] - a[1])};
     }
 
     public async getUserLikes(userId: string): Promise<any> {

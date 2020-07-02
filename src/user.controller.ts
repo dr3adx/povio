@@ -109,12 +109,7 @@ export class UserController {
   public async getMostLiked(
       @Param('username') username: string,
   ): Promise<any> {
-    const res: any = await this.usersService.getMostLiked();
-
-    if (!res.length)
-      throw new HttpException('Most liked list is empty', HttpStatus.NOT_FOUND);
-
-    return {mostLiked: res};
+    return this.usersService.getMostLiked();
   }
 
   @Get('user/:id')
